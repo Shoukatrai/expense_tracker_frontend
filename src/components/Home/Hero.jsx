@@ -71,7 +71,7 @@ const Hero = () => {
 
       <Box
         component="img"
-        src="/src/assets/Generated Image October 30, 2025 - 4_57PM.png"
+        src="../../assets/Generated Image October 30, 2025 - 4_57PM.png"
         alt="Expense Tracking Illustration"
         sx={{
           width: { xs: "100%", md: "45%" },
