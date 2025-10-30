@@ -38,6 +38,7 @@ const Login = () => {
       });
       Cookies.set("token" , response.data.token)
       Cookies.set("name" , response.data.data.fullName)
+      Cookies.set("image", response.data?.data?.profileImageUrl || "");
       setLoading(false);
       navigate("/dashboard")
     } catch (error) {
