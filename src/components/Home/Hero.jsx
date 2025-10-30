@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Stack, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import heroImg from "../../assets/Generated Image October 30, 2025 - 4_57PM.png";
 const Hero = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
@@ -63,7 +63,7 @@ const Hero = () => {
               background: "linear-gradient(90deg, #2563eb 0%, #4f46e5 100%)",
             },
           }}
-          onClick={()=>navigate('/login')}
+          onClick={() => navigate("/login")}
         >
           Get Started
         </Button>
@@ -71,7 +71,7 @@ const Hero = () => {
 
       <Box
         component="img"
-        src="../../assets/Generated Image October 30, 2025 - 4_57PM.png"
+        src={heroImg}
         alt="Expense Tracking Illustration"
         sx={{
           width: { xs: "100%", md: "45%" },
