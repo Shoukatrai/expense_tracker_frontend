@@ -13,10 +13,9 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { BASE_URL, toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
-// import { BASE_URL, toastAlert } from "../utils";
-// import { apiEndPoints } from "../constant/apiEndPoints";
+
 
 const style = {
   position: "absolute",
@@ -49,7 +48,7 @@ export const ExpenseModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     try {
       console.log("data", data);
       setLoading(true);
-      const apiUrl = `${BASE_URL}${apiEndPoints.addExpense}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.addExpense}`;
       const response = await axios.post(apiUrl, data, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,

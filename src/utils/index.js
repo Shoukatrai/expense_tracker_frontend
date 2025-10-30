@@ -1,6 +1,6 @@
 import { Bounce, toast } from "react-toastify";
 // export const BASE_URL = "http://localhost:5000/api/v1/"
-export const BASE_URL = "https://expense-tracker-backend-khaki.vercel.app/api/v1/"
+
 
 export const toastAlert = (object) => {
   if (object.type === "success") {

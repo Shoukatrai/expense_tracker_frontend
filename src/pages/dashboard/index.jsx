@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DashLayout from "../../components/layout/DashLayout";
 import axios from "axios";
-import { BASE_URL } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import Cookies from "js-cookie";
 import { Box, Stack, Typography } from "@mui/material";
@@ -15,7 +14,7 @@ const Dashboard = () => {
   const [data, setData] = useState({});
   const fecthData = async () => {
     try {
-      const apiUrl = `${BASE_URL}${apiEndPoints.getTracker}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getTracker}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -117,12 +116,6 @@ const Dashboard = () => {
           xAxis={[
             { data: ["Total Balance", "Total Income", "Total Expenses"] },
           ]}
-          // yAxis={[
-          //   {
-          //     label: "Amount ($)",
-          //     valueFormatter: (value) => `$${value.toLocaleString()}`,
-          //   },
-          // ]}
           series={[
             {
               data: [

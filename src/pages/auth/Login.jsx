@@ -11,7 +11,7 @@ import {
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL, toastAlert } from "../../utils";
+import {  toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
       setLoading(true);
       console.log("Login data:", data);
 
-      const api = `${BASE_URL}${apiEndPoints.login}`;
+      const api = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.login}`;
       const response = await axios.post(api, data);
       console.log(response);
        toastAlert({

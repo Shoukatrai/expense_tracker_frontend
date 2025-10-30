@@ -9,7 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL, toastAlert } from "../../utils";
+import {  toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ const Login = () => {
     try {
       setLoading(true);
       console.log("Signup data:", data);
-      const api = `${BASE_URL}${apiEndPoints.registerUser}`;
+      const api = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.registerUser}`;
       const response = await axios.post(api, data);
       console.log("response", response);
       toastAlert({

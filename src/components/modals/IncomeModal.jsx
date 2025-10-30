@@ -13,10 +13,9 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { BASE_URL, toastAlert } from "../../utils";
+import {  toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
-// import { BASE_URL, toastAlert } from "../utils";
-// import { apiEndPoints } from "../constant/apiEndPoints";
+
 
 const style = {
   position: "absolute",
@@ -44,15 +43,13 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     },
   });
 
-  // const handleFileChange = (e) => {
-  //   setReportFile(e.target.files[0]);
-  // };
+ 
 
   const onSubmit = async (data) => {
     try {
       console.log("data", data);
       setLoading(true);
-      const apiUrl = `${BASE_URL}${apiEndPoints.addIncome}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.addIncome}`;
       const response = await axios.post(apiUrl, data, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,

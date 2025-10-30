@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DashLayout from "../../components/layout/DashLayout";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { IoMdDownload } from "react-icons/io";
-import { BASE_URL, toastAlert } from "../../utils";
+import {  toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -21,7 +21,7 @@ const Profile = () => {
     console.log("file", event.target.files[0]);
     setImage(event.target.files[0]);
     try {
-      const apiUrl = `${BASE_URL}${apiEndPoints.uploadPofileImage}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.uploadPofileImage}`;
       const formData = new FormData();
       formData.append("image", event.target.files[0]);
       const response = await axios.post(apiUrl, formData, {
@@ -43,7 +43,7 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const apiUrl = `${BASE_URL}${apiEndPoints.getUser}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getUser}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,

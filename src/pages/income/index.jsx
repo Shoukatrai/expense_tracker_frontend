@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { MdOutlineDelete } from "react-icons/md";
 import { IncomeModal } from "../../components/modals/IncomeModal";
-import { BASE_URL, toastAlert } from "../../utils";
+import {  toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -28,7 +28,7 @@ const Income = () => {
   const [reafreshData, setRefreshData] = useState([]);
   const fetchData = async () => {
     try {
-      const apiUrl = `${BASE_URL}${apiEndPoints.getIncome}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getIncome}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -43,7 +43,7 @@ const Income = () => {
   const incomeDeleteHanler = async (id) => {
     try {
       console.log("id", id);
-      const apiUrl = `${BASE_URL}${apiEndPoints.deleteIncome(id)}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.deleteIncome(id)}`;
       const response = await axios.delete(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -65,7 +65,7 @@ const Income = () => {
   };
   const handleDowload = async () => {
     try {
-      const apiUrl = `${BASE_URL}${apiEndPoints.downloadIncome}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.downloadIncome}`;
       const response = await axios.get(apiUrl, {
         responseType: "blob",
         headers: {
@@ -90,7 +90,7 @@ const Income = () => {
   const handleRefresh = async (date) => {
     try {
       console.log("date", date);
-      const apiUrl = `${BASE_URL}${apiEndPoints.refreshIncome(date)}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.refreshIncome(date)}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
