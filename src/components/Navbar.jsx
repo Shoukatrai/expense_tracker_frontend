@@ -15,7 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["login", "signup", "profile"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
