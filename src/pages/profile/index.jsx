@@ -63,13 +63,13 @@ const Profile = () => {
   return (
     <DashLayout>
       <Stack
-        boxShadow={4}
+        boxShadow={1}
         borderRadius={3}
         p={3}
         alignItems="center"
         spacing={2}
         sx={{
-          width: { xs: "100%", sm: "400px" },
+          width: { xs: "90%", md: "80%", },
           mx: "auto",
         }}
         position={"relative"}
@@ -78,13 +78,13 @@ const Profile = () => {
           {user?.fullName} PROFILE
         </Typography>
         <Box textAlign="center">
-          <Typography variant="body1" fontWeight={600}>
+          <Typography variant="body1" fontWeight={600} textAlign={"center"}>
             {user?.fullName || "User Name"}
           </Typography>
         </Box>
         <Box
           component="img"
-          src={user?.profileImageUrl}
+          src={user?.profileImageUrl || "/src/assets/fall back image.png"}
           alt="Profile Image"
           sx={{
             width: 150,
