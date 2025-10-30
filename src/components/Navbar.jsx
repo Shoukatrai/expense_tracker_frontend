@@ -6,7 +6,6 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import { FiMenu, FiUser } from "react-icons/fi";
 import Avatar from "@mui/material/Avatar";
@@ -67,7 +66,7 @@ function Navbar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <FiMenu />
             </IconButton>
             <Menu
               id="menu-appbar"
