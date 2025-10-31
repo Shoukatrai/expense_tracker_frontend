@@ -13,9 +13,8 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {  toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
-
 
 const style = {
   position: "absolute",
@@ -26,8 +25,7 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: 4,
   boxShadow: 8,
-  p: { xs: 2, sm: 4 },
-  border: "none",
+  p: { xs: 3, sm: 4 },
   outline: "none",
 };
 
@@ -35,7 +33,12 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
   const [loading, setLoading] = React.useState(false);
   const handleClose = () => setOpen(false);
 
-  const { control, handleSubmit, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       source: "",
       amount: "",
@@ -43,35 +46,34 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     },
   });
 
- 
-
   const onSubmit = async (data) => {
     try {
-      console.log("data", data);
       setLoading(true);
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.addIncome}`;
+
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.addIncome
+      }`;
       const response = await axios.post(apiUrl, data, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       });
-      console.log("response", response);
-
-      setLoading(false);
 
       toastAlert({
         type: "success",
-        message: response.data.message || "Income Addedd Successfully",
+        message: response.data.message || "Income added successfully",
       });
+
       reset();
-      handleClose();
+      setOpen(false);
       setIsRefresh(!isRefresh);
     } catch (err) {
-      setLoading(false);
       toastAlert({
         type: "error",
-        message: err.message || "Income Adding Error",
+        message: err.response?.data?.message || "Failed to add income",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,16 +83,22 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
       onClose={handleClose}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
-      slotProps={{ backdrop: { timeout: 500 } }}
+      slotProps={{ backdrop: { timeout: 300 } }}
     >
       <Fade in={open}>
         <Box sx={style}>
-          <Stack gap={1.5} component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Stack
+            gap={2}
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+          >
             <Typography
-              variant="h4"
+              variant="h5"
               align="center"
               fontWeight={700}
               color="primary"
+              mb={1}
             >
               Add Income
             </Typography>
@@ -98,13 +106,20 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             <Controller
               control={control}
               name="amount"
+              rules={{
+                required: "Amount is required",
+                pattern: {
+                  value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                  message: "Enter a valid amount (e.g. 100 or 150.75)",
+                },
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
                   label="Amount"
-                  variant="outlined"
                   fullWidth
-                  required
+                  error={!!errors.amount}
+                  helperText={errors.amount?.message}
                 />
               )}
             />
@@ -112,53 +127,49 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             <Controller
               control={control}
               name="source"
+              rules={{
+                required: "Source is required",
+                minLength: {
+                  value: 3,
+                  message: "Source must be at least 3 characters",
+                },
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
                   label="Source"
-                  variant="outlined"
                   fullWidth
-                  required
-                  type="text"
+                  error={!!errors.source}
+                  helperText={errors.source?.message}
                 />
               )}
             />
+
             <Controller
               control={control}
               name="date"
+              rules={{
+                required: "Date is required",
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
                   label="Date"
-                  variant="outlined"
-                  fullWidth
-                  required
                   type="date"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  error={!!errors.date}
+                  helperText={errors.date?.message}
                 />
               )}
             />
 
-            {/* <Button variant="outlined" component="label">
-              Upload Report (PDF/Image)
-              <input
-                type="file"
-                accept="application/pdf,image/*"
-                hidden
-                onChange={handleFileChange}
-              />
-            </Button> */}
-
-            {/* {reportFile && (
-              <Typography variant="body2" color="text.secondary">
-                Selected file: {reportFile.name}
-              </Typography>
-            )} */}
-
             <Button
+              type="submit"
               variant="contained"
               color="primary"
-              type="submit"
-              sx={{ mt: 2, color: "white" }}
+              sx={{ mt: 2 }}
+              disabled={loading}
             >
               {loading ? (
                 <CircularProgress color="inherit" size={20} />
