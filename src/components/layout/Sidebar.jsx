@@ -35,7 +35,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           borderColor: "divider",
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold" color="primary" fontSize={28} >
           Expense Tracker
         </Typography>
         <IconButton

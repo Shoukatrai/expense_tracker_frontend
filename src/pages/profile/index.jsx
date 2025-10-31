@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DashLayout from "../../components/layout/DashLayout";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { IoMdDownload } from "react-icons/io";
-import {  toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -21,7 +21,9 @@ const Profile = () => {
     console.log("file", event.target.files[0]);
     setImage(event.target.files[0]);
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.uploadPofileImage}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.uploadPofileImage
+      }`;
       const formData = new FormData();
       formData.append("image", event.target.files[0]);
       const response = await axios.post(apiUrl, formData, {
@@ -61,7 +63,7 @@ const Profile = () => {
     fetchUserProfile();
   }, [refresh]);
   return (
-    <DashLayout>
+    <DashLayout pageTitle={"Profile"}>
       <Stack
         boxShadow={1}
         borderRadius={3}
@@ -69,7 +71,7 @@ const Profile = () => {
         alignItems="center"
         spacing={2}
         sx={{
-          width: { xs: "90%", md: "80%", },
+          width: { xs: "90%", md: "80%" },
           mx: "auto",
         }}
         position={"relative"}

@@ -14,7 +14,9 @@ const Dashboard = () => {
   const [data, setData] = useState({});
   const fecthData = async () => {
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getTracker}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.getTracker
+      }`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -31,7 +33,7 @@ const Dashboard = () => {
     fecthData();
   }, []);
   return (
-    <DashLayout>
+    <DashLayout pageTitle={"Dashboard"}>
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"

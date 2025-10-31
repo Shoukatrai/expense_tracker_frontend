@@ -3,7 +3,7 @@ import { Box, CssBaseline } from "@mui/material";
 import Sidebar from "./Sidebar";
 import AppHeader from "./AppHeader";
 
-export default function DashLayout({ children }) {
+export default function DashLayout({ children, pageTitle }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -12,7 +12,11 @@ export default function DashLayout({ children }) {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-        <AppHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <AppHeader
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          pageTitle={pageTitle}
+        />
 
         <Box
           component="main"

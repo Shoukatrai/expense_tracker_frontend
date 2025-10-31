@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { MdOutlineDelete } from "react-icons/md";
 import { IncomeModal } from "../../components/modals/IncomeModal";
-import {  toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -28,7 +28,9 @@ const Income = () => {
   const [reafreshData, setRefreshData] = useState([]);
   const fetchData = async () => {
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getIncome}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.getIncome
+      }`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -43,7 +45,9 @@ const Income = () => {
   const incomeDeleteHanler = async (id) => {
     try {
       console.log("id", id);
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.deleteIncome(id)}`;
+      const apiUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }${apiEndPoints.deleteIncome(id)}`;
       const response = await axios.delete(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -65,7 +69,9 @@ const Income = () => {
   };
   const handleDowload = async () => {
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.downloadIncome}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.downloadIncome
+      }`;
       const response = await axios.get(apiUrl, {
         responseType: "blob",
         headers: {
@@ -90,7 +96,9 @@ const Income = () => {
   const handleRefresh = async (date) => {
     try {
       console.log("date", date);
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.refreshIncome(date)}`;
+      const apiUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }${apiEndPoints.refreshIncome(date)}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -110,7 +118,7 @@ const Income = () => {
     }
   }, [isRefresh, reafreshData]);
   return (
-    <DashLayout>
+    <DashLayout pageTitle={"Income"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Typography sx={{ fontWeight: "bold", fontSize: { xs: 16, sm: 18 } }}>
           Income
@@ -142,8 +150,15 @@ const Income = () => {
             onChange={(e) => handleRefresh(e.target.value)}
           ></TextField>
         </Box>
-        <Button variant="outlined" onClick={handleDowload}>
-          <IoMdDownload /> Income sheet
+        <Button
+          variant="outlined"
+          onClick={handleDowload}
+          sx={{
+            display: "flex",
+            gap: "5px",
+          }}
+        >
+          <IoMdDownload size={18} /> Income sheet
         </Button>
       </Stack>
       <TableContainer component={Paper} sx={{ boxShadow: 1, mt: 3 }}>

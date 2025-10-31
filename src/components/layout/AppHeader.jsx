@@ -14,7 +14,7 @@ import { FiMenu, FiUser } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 
-export default function AppHeader({ sidebarOpen, setSidebarOpen }) {
+export default function AppHeader({ sidebarOpen, setSidebarOpen , pageTitle }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
@@ -60,7 +60,7 @@ export default function AppHeader({ sidebarOpen, setSidebarOpen }) {
             fontWeight: 600,
           }}
         >
-          Dashboard
+          {pageTitle}
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>

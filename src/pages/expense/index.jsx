@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { Button, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import {  toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -31,7 +31,9 @@ const Expense = () => {
   const [reafreshData, setRefreshData] = useState([]);
   const fetchData = async () => {
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.getExpense}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.getExpense
+      }`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -45,7 +47,9 @@ const Expense = () => {
 
   const handleDowload = async () => {
     try {
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.downloadExpense}`;
+      const apiUrl = `${import.meta.env.VITE_BASE_URL}${
+        apiEndPoints.downloadExpense
+      }`;
       const response = await axios.get(apiUrl, {
         responseType: "blob",
         headers: {
@@ -70,7 +74,9 @@ const Expense = () => {
   const expenseDeleteHanler = async (id) => {
     try {
       console.log("id", id);
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.deleteExpense(id)}`;
+      const apiUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }${apiEndPoints.deleteExpense(id)}`;
       const response = await axios.delete(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -94,7 +100,9 @@ const Expense = () => {
   const handleRefresh = async (date) => {
     try {
       console.log("date", date);
-      const apiUrl = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.refreshExpense(date)}`;
+      const apiUrl = `${
+        import.meta.env.VITE_BASE_URL
+      }${apiEndPoints.refreshExpense(date)}`;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -114,7 +122,7 @@ const Expense = () => {
     }
   }, [isRefresh, reafreshData]);
   return (
-    <DashLayout>
+    <DashLayout pageTitle={"Expenses"}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Typography sx={{ fontWeight: "bold", fontSize: { xs: 16, sm: 18 } }}>
           Expenses
@@ -147,8 +155,15 @@ const Expense = () => {
             onChange={(e) => handleRefresh(e.target.value)}
           ></TextField>
         </Box>
-        <Button variant="outlined" onClick={handleDowload}>
-          <IoMdDownload /> expense sheet
+        <Button
+          variant="outlined"
+          onClick={handleDowload}
+          sx={{
+            display: "flex",
+            gap: "5px",
+          }}
+        >
+          <IoMdDownload size={18}/> expense sheet
         </Button>
       </Stack>
 
