@@ -14,10 +14,18 @@ import axios from "axios";
 import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 const Login = () => {
   const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm({
+  const [loading, setLoading] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -31,14 +39,15 @@ const Login = () => {
 
       const api = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.login}`;
       const response = await axios.post(api, data);
-      console.log(response);
+
       if (!response.data.status) {
         setLoading(false);
         return toastAlert({
           type: "error",
-          message: response.data.message || "Login error",
+          message: response.data.message || "Invalid email or password",
         });
       }
+
       toastAlert({
         type: "success",
         message: "Login Successful!",
@@ -47,14 +56,15 @@ const Login = () => {
       Cookies.set("token", response.data.token);
       Cookies.set("name", response.data.data.fullName);
       Cookies.set("image", response.data?.data?.profileImageUrl || "");
-      setLoading(false);
+
       navigate("/dashboard");
     } catch (error) {
-      setLoading(false);
       toastAlert({
         type: "error",
-        message: error.message || "Network error",
+        message: error.response?.data?.message || "Login failed",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +80,7 @@ const Login = () => {
         textAlign: "center",
       }}
     >
-      <Typography variant="h5" mb={3}>
+      <Typography variant="h5" mb={3} fontWeight={700} color="primary">
         Login
       </Typography>
 
@@ -79,20 +89,43 @@ const Login = () => {
           <Controller
             name="email"
             control={control}
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: emailPattern,
+                message: "Enter a valid email address",
+              },
+            }}
             render={({ field }) => (
-              <TextField {...field} label="Email" type="email" fullWidth />
+              <TextField
+                {...field}
+                label="Email"
+                type="email"
+                fullWidth
+                error={!!errors.email}
+                helperText={errors.email?.message}
+              />
             )}
           />
 
           <Controller
             name="password"
             control={control}
+            rules={{
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 {...field}
                 label="Password"
                 type="password"
                 fullWidth
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
             )}
           />
@@ -101,20 +134,21 @@ const Login = () => {
             type="submit"
             variant="contained"
             size="large"
-            disabled={Loading}
+            disabled={ loading}
           >
-            {Loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </Button>
-          <Box>
-            <Typography>Dont have an account!</Typography>
-            <Link
-              style={{
-                color: "red",
-              }}
-              to={"/signup"}
-            >
-              Signup
-            </Link>
+
+          <Box mt={1}>
+            <Typography variant="body2">
+              Don’t have an account?{" "}
+              <Link
+                to="/signup"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
+                Sign up
+              </Link>
+            </Typography>
           </Box>
         </Stack>
       </form>

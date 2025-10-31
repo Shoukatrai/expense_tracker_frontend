@@ -13,10 +13,18 @@ import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 import axios from "axios";
 
-const Login = () => {
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const Signup = () => {
   const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm({
+  const [loading, setLoading] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
     defaultValues: {
       fullName: "",
       email: "",
@@ -27,19 +35,20 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      console.log("Signup data:", data);
       const api = `${import.meta.env.VITE_BASE_URL}${
         apiEndPoints.registerUser
       }`;
       const response = await axios.post(api, data);
-      console.log("response", response);
+
       if (!response.data.status) {
-        setLoading(false);
-        return toastAlert({
+        toastAlert({
           type: "error",
           message: response.data.message || "Signup error",
         });
+        setLoading(false);
+        return;
       }
+
       toastAlert({
         type: "success",
         message: response.data.message || "Signup Success",
@@ -50,7 +59,8 @@ const Login = () => {
       setLoading(false);
       toastAlert({
         type: "error",
-        message: error.message || "Signup Error!",
+        message:
+          error.response?.data?.message || error.message || "Signup error",
       });
     }
   };
@@ -59,16 +69,16 @@ const Login = () => {
     <Paper
       elevation={3}
       sx={{
-        width: 360,
+        width: 380,
         mx: "auto",
-        mt: 5,
+        mt: 6,
         p: 4,
-        borderRadius: 2,
+        borderRadius: 3,
         textAlign: "center",
       }}
     >
       <Typography variant="h5" mb={3} fontWeight={700} color="primary">
-        Singup
+        Sign Up
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -76,49 +86,81 @@ const Login = () => {
           <Controller
             name="fullName"
             control={control}
+            rules={{ required: "Full name is required" }}
             render={({ field }) => (
-              <TextField {...field} label="Full Name" type="text" fullWidth />
+              <TextField
+                {...field}
+                label="Full Name"
+                fullWidth
+                error={!!errors.fullName}
+                helperText={errors.fullName?.message}
+              />
             )}
           />
 
           <Controller
             name="email"
             control={control}
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: emailPattern,
+                message: "Enter a valid email address",
+              },
+            }}
             render={({ field }) => (
-              <TextField {...field} label="Email" type="email" fullWidth />
+              <TextField
+                {...field}
+                label="Email"
+                type="email"
+                fullWidth
+                error={!!errors.email}
+                helperText={errors.email?.message}
+              />
             )}
           />
 
           <Controller
             name="password"
             control={control}
+            rules={{
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be 8 character",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 {...field}
                 label="Password"
                 type="password"
                 fullWidth
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
             )}
           />
+
           <Button
             type="submit"
             variant="contained"
             size="large"
-            disabled={Loading}
+            disabled={loading}
           >
-            {Loading ? "Signning up..." : "Signup"}
+            {loading ? "Signing up..." : "Sign Up"}
           </Button>
+
           <Box>
-            <Typography>Have an account!</Typography>
-            <Link
-              style={{
-                color: "red",
-              }}
-              to={"/login"}
-            >
-              Login
-            </Link>
+            <Typography variant="body2" mt={1}>
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
+                Log in
+              </Link>
+            </Typography>
           </Box>
         </Stack>
       </form>
@@ -126,4 +168,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
