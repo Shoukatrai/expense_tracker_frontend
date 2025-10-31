@@ -11,7 +11,7 @@ import {
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {  toastAlert } from "../../utils";
+import { toastAlert } from "../../utils";
 import { apiEndPoints } from "../../constant/apiEndPoints";
 
 const Login = () => {
@@ -32,15 +32,23 @@ const Login = () => {
       const api = `${import.meta.env.VITE_BASE_URL}${apiEndPoints.login}`;
       const response = await axios.post(api, data);
       console.log(response);
-       toastAlert({
+      if (!response.data.status) {
+        setLoading(false);
+        return toastAlert({
+          type: "error",
+          message: response.data.message || "Login error",
+        });
+      }
+      toastAlert({
         type: "success",
-        message:  "Login Successful!",
+        message: "Login Successful!",
       });
-      Cookies.set("token" , response.data.token)
-      Cookies.set("name" , response.data.data.fullName)
+
+      Cookies.set("token", response.data.token);
+      Cookies.set("name", response.data.data.fullName);
       Cookies.set("image", response.data?.data?.profileImageUrl || "");
       setLoading(false);
-      navigate("/dashboard")
+      navigate("/dashboard");
     } catch (error) {
       setLoading(false);
       toastAlert({
