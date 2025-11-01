@@ -28,7 +28,6 @@ const style = {
   p: { xs: 3, sm: 4 },
   outline: "none",
 };
-
 export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
   const [loading, setLoading] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -130,8 +129,8 @@ export const IncomeModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
               rules={{
                 required: "Source is required",
                 minLength: {
-                  value: 3,
-                  message: "Source must be at least 3 characters",
+                  value: 5,
+                  message: "Source must be at least 5 characters",
                 },
               }}
               render={({ field }) => (

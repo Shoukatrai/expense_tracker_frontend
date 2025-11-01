@@ -127,6 +127,10 @@ export const ExpenseModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
               name="category"
               control={control}
               rules={{
+                minLength: {
+                  value: 5,
+                  message: "Category must be at least 5 characters",
+                },
                 required: "Category is required",
               }}
               render={({ field }) => (
@@ -146,8 +150,8 @@ export const ExpenseModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
               rules={{
                 required: "Description is required",
                 minLength: {
-                  value: 3,
-                  message: "Description must be at least 3 characters",
+                  value: 5,
+                  message: "Description must be at least 5 characters",
                 },
               }}
               render={({ field }) => (
